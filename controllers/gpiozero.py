@@ -1,29 +1,29 @@
 # pip install --upgrade gpiozero
-from gpiozero import PWMLED
+from gpiozero import PWMOutputDevice
 
-# GPIO13 = Board Pin 33
-
-# Run `cat /sys/kernel/debug/pwm` to see hardware PWM state
+# https://wiki.radxa.com/Penta_SATA_HAT
+# Pin 8 connects to either Board pin 13 or 33
+# GPIO27 = Board13 = GPIO27 = GPIO4_C6 in Penta hat terminology         
+# GPIO13 = Board33 = chann1 = PWM_33   in Penta hat terminology       
 
 # Add the following in /boot/firmware/config.txt :
-# dtoverlay=pwm-2chan,pin=12,func=4,pin2=13,func2=4
-# This enables PWM on GPIO12 and GPIO13
-# GPIO13 = PWM33 = PWM0_CHAN1
+# dtoverlay=w1-gpio
 
 class GpioZeroPWM:
     """
-    This class uses software PWM to control pin GPIO13 (=board pin 33)
+    This class uses software PWM to control pin BOARD13 (aka. GPIO27)
     """
     def __init__(self, initial_duty_cycle: int):
-        self.pwm = PWMLED('GPIO13', frequency=25)
+        self.pwm = PWMOutputDevice('BOARD13', frequency=25)
         self.initial_duty_cycle = initial_duty_cycle
 
-    def change_duty_cycle(self, duty_cycle: int):
+    def set_duty_cycle(self, duty_cycle: int):
         self.pwm.value = duty_cycle / 100
 
     def __enter__(self):
         self.pwm.value = self.initial_duty_cycle / 100
-        self.pwm.on()
+        return self
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.pwm.off()
+        self.pwm = None

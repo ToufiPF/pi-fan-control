@@ -1,3 +1,3 @@
 #/bin/bash
 
-./main.py
+./main.py lgpio
