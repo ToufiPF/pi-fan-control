@@ -1,0 +1,12 @@
+[Unit]
+Description=ATX fan control with PWM
+After=network-online.target
+
+[Service]
+Type=idle
+Restart=on-failure
+User=root
+ExecStart=/bin/bash -c 'cd /home/toufi/Documents/raspberry-pi-fan-control && source /home/toufi/.venv/bin/activate && main.py'
+
+[Install]
+WantedBy=multi-user.target
