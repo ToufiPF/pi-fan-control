@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-import sys
 import time
 import logging
-from config import read_config, Configuration
 from operator import itemgetter
+from config import parse_config, Configuration
 
 def read_cpu_temp() -> float:
     """
@@ -35,9 +34,9 @@ def determine_duty_cycle(config: Configuration, cpu_temp: float, verbose = False
     return duty_cycle
 
 
-def main_loop(config: Configuration, pwmClass: type):
+def main_loop(config: Configuration):
     i = 0
-    with pwmClass(50) as pwm:
+    with config.pwm_class(50) as pwm:
         while True:
             verbose = i % 10 == 0
             time.sleep(config.poll_interval)
@@ -49,28 +48,5 @@ def main_loop(config: Configuration, pwmClass: type):
 
 if __name__ == '__main__':
     logging.basicConfig(level= logging.INFO)
-
-    pwmClass = None
-    requestedPwm = sys.argv[1] if len(sys.argv) >= 2 else 'pylgpio'
-    config_path = sys.argv[2] if len(sys.argv) >= 3 else '/etc/raspberry-pi-fan-control.conf'
-    config = read_config(config_path)
-
-    match requestedPwm.lower():
-        case 'pylgpio' | 'lgpio':
-            from controllers.pylgpio import LgpioPWM
-            pwmClass = LgpioPWM
-
-        case 'gpiozero' | 'zero':
-            from controllers.gpiozero import GpioZeroPWM
-            pwmClass = GpioZeroPWM
-
-        case 'hw' | 'rpihw' | 'hardware' | 'rpihardware':
-            from controllers.rpihardwarepwm import HardwarePWM
-            pwmClass = HardwarePWM
-        case _:
-            error = f'Unsupported requested PWM controller name "{requestedPwm}"'
-            logging.error(error)
-            raise ValueError(error)
-
-    logging.info(f'Using controller "{requestedPwm}" ({pwmClass})')
-    main_loop(config, pwmClass)
+    config = parse_config()
+    main_loop(config)

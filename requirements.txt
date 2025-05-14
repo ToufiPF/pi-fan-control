@@ -1,0 +1,8 @@
+# Tested against these versions of the GPIO libraries
+# Note : all of them are not required, depending on the PWM controller used
+gpiozero==2.0.1
+rpi-lgpio==0.6
+rpi_hardware_pwm==0.2.2
+
+configparser~=7.2.0
+argparse~=1.4.0
