@@ -12,9 +12,19 @@ This repo holds my experiments to control the fans integrated in my ATX case.
 ### Installation
 
 ```sh
+# install scripts
+mkdir /usr/local/src/pi-fan-control
+cp *.py /usr/local/src/pi-fan-control/
+cp -r controllers /usr/local/src/pi-fan-control/
+cd ~/Documents/pi-fan-control
+sudo mkdir /usr/local/src/pi-fan-control
+sudo cp *.py /usr/local/src/pi-fan-control/
+sudo cp -r controllers /usr/local/src/pi-fan-control/
+sudo chmod 755 /usr/local/src/pi-fan-control/main.py
+
 # install config
-sudo cp ./pi-fan-control.config /etc/pi-fan-control.config
-sudo chmod 644 /etc/pi-fan-control.config
+sudo cp ./pi-fan-control.config /usr/local/etc/pi-fan-control.config
+sudo chmod 644 /usr/local/etc/pi-fan-control.config
 
 # install service
 sudo cp ./pi-fan-control.service /lib/systemd/system/
@@ -26,27 +36,24 @@ sudo systemctl enable pi-fan-control.service
 ### Extra command to manage the service
 
 ```sh
-# start a service
-sudo systemctl start application.service
-sudo systemctl start application
+# start / stop a service
+sudo systemctl start pi-fan-control.service
+sudo systemctl stop pi-fan-control.service
 
-# stop a service
-sudo systemctl stop application.service
+# get logs from journal
+journalctl -u pi-fan-control.service
 
 # restart a service (after configuration change)
-sudo systemctl restart application.service
-
+sudo systemctl restart pi-fan-control.service
 # reload a service (after service's configuration change)
-sudo systemctl reload application.service
+sudo systemctl reload pi-fan-control.service
 
-# enable a service
-sudo systemctl enable application.service
-
-# disable a service
-sudo systemctl disable application.service
+# enable / disable a service
+sudo systemctl enable pi-fan-control.service
+sudo systemctl disable pi-fan-control.service
 
 # get the status log of a service
-systemctl status application.service
+systemctl status pi-fan-control.service
 ```
 
 

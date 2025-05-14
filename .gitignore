@@ -1,0 +1,5 @@
+__pycache__
+.idea
+.vs
+.code
+install_on_pi.sh
