@@ -13,10 +13,6 @@ This repo holds my experiments to control the fans integrated in my ATX case.
 
 ```sh
 # install scripts
-mkdir /usr/local/src/pi-fan-control
-cp *.py /usr/local/src/pi-fan-control/
-cp -r controllers /usr/local/src/pi-fan-control/
-cd ~/Documents/pi-fan-control
 sudo mkdir /usr/local/src/pi-fan-control
 sudo cp *.py /usr/local/src/pi-fan-control/
 sudo cp -r controllers /usr/local/src/pi-fan-control/
@@ -61,7 +57,7 @@ systemctl status pi-fan-control.service
 
 - [x] Make a PoC work on my setup
 - [ ] Post some photos of said setup when I get the time to
-- [ ] Wrap this python script as an executable service that can be run at startup, restarted, stopped etc...
+- [x] Wrap this python script as an executable service that can be run at startup, restarted, stopped etc...
 - [ ] Read back actual fan speed using TACH signal
 - [ ] Integrate disk temperature in duty cycle computation, if available
 - [ ] Improve the PWM controller to avoid oscillating when at the boundary between 2 temperatures
@@ -80,5 +76,11 @@ systemctl status pi-fan-control.service
     My hat is wired to pin 13, so I had to use software PWM ;
     that caused me a lot of headaches because on the newer [wiki page](https://docs.radxa.com/en/accessories/penta-sata-hat/sata-hat-top-board)
     only pin 33 is mentioned.
-- [rpi-lgpio doc](https://rpi-lgpio.readthedocs.io) : Drop-in replacement for lgpio for Raspberry Pi 5
 - [rockpi-sata github](https://github.com/radxa/rockpi-sata)
+
+- [ATX power supply connector pinout](http://www.submm.caltech.edu/kids_html/DesignLog/DesignLog179/MillerMUSICReadoutDocs/Roach%20board/ATX12V_24.pdf)
+- [4-wire fans pinout](http://www.pavouk.org/hw/fan/en_fan4wire.html)
+
+- [rpi-lgpio doc](https://rpi-lgpio.readthedocs.io) : Python library, meant to be drop-in replacement for lgpio for Raspberry Pi 5
+- [gpiozero library](https://gpiozero.readthedocs.io/en/latest) : Python library that allows controls GPIO ; interface cleaner than rpi-lgpio
+- [rpi_hardware_pwm](https://github.com/Pioreactor/rpi_hardware_pwm) : Python library that allows to control HW PWM, as opposed to most libraries that only expose SW PWM
