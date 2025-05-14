@@ -56,7 +56,7 @@ def _parse_sysargv() -> Namespace:
     parser = ArgumentParser(add_help= False)
     parser.add_argument('--config_path', '--config', '-c',
                         type=str,
-                        default='/etc/raspberry-pi-fan-control.conf',
+                        default='/etc/pi-fan-control.conf',
                         help='Path to the configuration file of this program')
     parser.add_argument('--pwm_controller', '--pwm', '-p',
                         type=str,

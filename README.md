@@ -13,14 +13,14 @@ This repo holds my experiments to control the fans integrated in my ATX case.
 
 ```sh
 # install config
-sudo cp ./raspberry-pi-fan-control.config /etc/raspberry-pi-fan-control.config
-sudo chmod 644 /etc/raspberry-pi-fan-control.config
+sudo cp ./pi-fan-control.config /etc/pi-fan-control.config
+sudo chmod 644 /etc/pi-fan-control.config
 
 # install service
-sudo cp ./raspberry-pi-fan-control.service /lib/systemd/system/
-sudo chmod 644 /lib/systemd/system/raspberry-pi-fan-control.service
+sudo cp ./pi-fan-control.service /lib/systemd/system/
+sudo chmod 644 /lib/systemd/system/pi-fan-control.service
 sudo systemctl daemon-reload
-sudo systemctl enable raspberry-pi-fan-control.service
+sudo systemctl enable pi-fan-control.service
 ```
 
 ### Extra command to manage the service
