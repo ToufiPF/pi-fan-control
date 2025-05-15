@@ -13,6 +13,12 @@ class Configuration:
         self.poll_interval: float = 5
         """ Interval in seconds between each round of polling temperature/change of DC """
 
+        self.backoff_time: float = 60
+        """
+        Minimum time in seconds before decreasing the duty cycle even in the temperature threshold is not met anymore.
+        Avoids alternating between 2 DC when the temperature oscillates around a given threshold
+        """
+
         self.duty_cycles: list[int] = [100, 80, 50, 25]
         """
         List of N target DCs, IN DECREASING ORDER, where N is the number of temperature thresholds, IN DECREASING ORDER.
@@ -82,10 +88,11 @@ def _parse_config_file(config_path: str) -> Configuration:
         parser.read(config_path)
 
         config.pwm_controller = parser.get('fan', 'pwm_controller', fallback= defaults.pwm_controller)
-        config.constant_duty_cycle = parser.getint('fan', 'constant_duty_cycle', fallback= defaults.constant_duty_cycle)
+        config.backoff_time  = parser.getfloat('fan', 'backoff_time', fallback= defaults.backoff_time)
         config.poll_interval = parser.getfloat('fan', 'poll_interval', fallback= defaults.poll_interval)
         config.duty_cycles = _parse_int_list(parser.get('fan', 'duty_cycles', fallback= _join_list(defaults.duty_cycles)))
         config.temperature_thresholds = _parse_int_list(parser.get('fan', 'temperature_thresholds', fallback= _join_list(defaults.temperature_thresholds)))
+        config.constant_duty_cycle = parser.getint('fan', 'constant_duty_cycle', fallback= defaults.constant_duty_cycle)
 
         logging.info(f'Successfully read config from "{config_path}"')
         return config

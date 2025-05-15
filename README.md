@@ -36,8 +36,8 @@ sudo systemctl enable pi-fan-control.service
 sudo systemctl start pi-fan-control.service
 sudo systemctl stop pi-fan-control.service
 
-# get logs from journal
-journalctl -u pi-fan-control.service
+# get logs from journal (100 last lines)
+journalctl -u pi-fan-control.service -n 100
 
 # restart a service (after configuration change)
 sudo systemctl restart pi-fan-control.service
@@ -60,7 +60,7 @@ systemctl status pi-fan-control.service
 - [x] Wrap this python script as an executable service that can be run at startup, restarted, stopped etc...
 - [ ] Read back actual fan speed using TACH signal
 - [ ] Integrate disk temperature in duty cycle computation, if available
-- [ ] Improve the PWM controller to avoid oscillating when at the boundary between 2 temperatures
+- [x] Improve the PWM controller to avoid oscillating when at the boundary between 2 temperatures
 - [ ] Add a way to stop/restart the HDDs as Radxa do it in their repo
 - [ ] Stop/Restart HDDs as the Pi goes to sleep
 - [ ] Stop/Restart HDDs after some time with no activity
